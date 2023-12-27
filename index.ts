@@ -29,10 +29,13 @@ const computeFirewall = new gcp.compute.Firewall("firewall", {
     sourceTags: ["http-server"],
 });
 
-// TODO: Download backup of database from repository
 const startupScript = `#!/bin/bash
 # Set working directory
-cd /opt/ && mkdir ${projectName} && cd ${projectName} 
+cd /opt/
+
+# Download backup
+git clone https://github.com/diavrank/${projectName}
+cd ${projectName}
 
 # Install Docker
 ${installDocker}
@@ -43,8 +46,6 @@ ${installDockerCompose}
 # Install Doppler
 ${installDoppler}
 
-# Download backup
-git clone 
 
 # Create Docker Compose Yaml file
 cat <<EOF > docker-compose.yml
