@@ -54,10 +54,12 @@ mkdir data
 sudo chown -R 1001 data
 
 # Configure doppler service token
+export HISTIGNORE='doppler*'
 echo '${serviceToken}' | doppler configure set token --scope /opt/${projectName}
 
 # Run mongo servers
 doppler run -- docker-compose up -d mongo-primary mongo-secondary mongo-arbiter
+sleep 7
 
 # Load initial backup
 docker exec -ti mongo-primary bash -c 'cd /opt/database && sh restore-db.sh'
@@ -70,6 +72,7 @@ const computeInstance = new gcp.compute.Instance("pulumi-instance", {
     bootDisk: {
         initializeParams: {
             image: "ubuntu-os-cloud/ubuntu-2004-lts", // get list names with command: gcloud compute images list
+            size: 25, // Boot disk size in GB
         },
     },
     networkInterfaces: [{
