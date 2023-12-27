@@ -23,7 +23,7 @@ const computeFirewall = new gcp.compute.Firewall("firewall", {
     network: computeNetwork.selfLink,
     allows: [{
         protocol: "tcp",
-        ports: [ "22", "80" ],
+        ports: [ "22", "80", "27017", "28017", "29017" ],
     }],
     sourceRanges: ["0.0.0.0/0"],
     sourceTags: ["http-server"],
@@ -48,6 +48,7 @@ ${installDoppler}
 
 
 # Create Docker Compose Yaml file
+sudo su
 cat <<EOF > docker-compose.yml
 ${dockerComposeYaml}
 EOF
@@ -57,7 +58,6 @@ mkdir data
 sudo chown -R 1001 data
 
 # Configure doppler service token
-export HISTIGNORE='doppler*'
 echo '${serviceToken}' | doppler configure set token --scope /opt/${projectName}
 
 # Run mongo servers

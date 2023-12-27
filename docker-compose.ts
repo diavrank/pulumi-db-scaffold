@@ -8,6 +8,8 @@ services:
     container_name: mongo-primary
     image: bitnami/mongodb:6.0.4
     restart: always
+    ports: 
+      - 27017:27017
     environment:
       - MONGODB_ADVERTISED_HOSTNAME=mongo-primary
       - MONGODB_REPLICA_SET_MODE=primary
@@ -26,6 +28,8 @@ services:
     container_name: mongo-secondary
     image: bitnami/mongodb:6.0.4
     restart: always
+    ports: 
+      - 28017:27017
     depends_on:
       - mongo-primary
     environment:
@@ -42,6 +46,8 @@ services:
     container_name: mongo-arbiter
     image: bitnami/mongodb:6.0.4
     restart: always
+    ports: 
+      - 29017:27017
     depends_on:
       - mongo-primary
     environment:
