@@ -3,11 +3,7 @@ import * as gcp from "@pulumi/gcp";
 import {installDocker} from "./installers/install-docker";
 import {installDockerCompose} from "./installers/install-docker-compose";
 import {dockerComposeYaml} from "./docker-compose";
-import {configDotenv} from "dotenv";
 import {installDoppler} from "./installers/install-doppler";
-
-// Load environment variables from a .env file
-configDotenv();
 
 const projectName = process.env.PROJECT_NAME || 'myProjectName';
 const serviceToken = process.env.SERVICE_TOKEN;
